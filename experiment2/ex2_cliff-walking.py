@@ -33,7 +33,7 @@ def update_q_value(q, q_next, reward, alpha, gamma):
     Please fill in the blank for variable 'td_target'
     according to the definition of the TD method
     """
-    td_target = None
+    td_target = reward + gamma*q_next
     return q + alpha * (td_target - q)
 
 
@@ -56,7 +56,7 @@ def sarsa(env, config):
     # loop over episodes
     for episode in trange(1, config.num_episode + 1):
         reward_sum = 0
-        state = env.reset()[0]
+        state = env.reset()
         action_set = np.arange(config.act_size)
 
         prob = epsilon_greedy(q_values[state], 1, config.epsilon)
@@ -76,7 +76,7 @@ def sarsa(env, config):
             Please fill in the blank for variable 'next_q_value'
             according to the definition of the SARSA algorithm
             """
-            next_q_value = None
+            next_q_value = q_values[next_state,next_action]
             q_values[state, action] = update_q_value(
                 q_values[state, action], 
                 0 if done else next_q_value, 
@@ -111,7 +111,7 @@ def q_learning(env, config):
     # loop over episodes
     for episode in trange(1, config.num_episode + 1):
         reward_sum = 0
-        state = env.reset()[0]
+        state = env.reset()
         action_set = np.arange(config.act_size)
 
         prob = epsilon_greedy(q_values[state], episode, config.epsilon)
@@ -130,7 +130,7 @@ def q_learning(env, config):
             Please fill in the blank for variable 'next_q_value'
             according to the definition of the Q-learning algorithm
             """
-            next_q_value = None
+            next_q_value = np.max(q_values[next_state])
             q_values[state, action] = update_q_value(
                     q_values[state, action], 
                     0 if done else next_q_value,
@@ -154,11 +154,11 @@ def q_learning(env, config):
 
 if __name__ == "__main__":
     #env = gym.make('CliffWalking-v0')
-    env = gym.make('CliffWalking-v0')
+    env = gym.make('FrozenLake-v1')
     print(env.action_space)
     print(env.observation_space)
 
-    config = Configs(env, max_timestep=200, num_episode=10000, plot_every=100)
+    config = Configs(env, max_timestep=200, num_episode=40000, plot_every=100)
     
     # train the Q-learning and SARSA agent
     q_learning(env, config)
