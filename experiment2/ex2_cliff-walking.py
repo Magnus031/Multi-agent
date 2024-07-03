@@ -5,6 +5,19 @@ import matplotlib.pyplot as plt
 from tqdm import trange
 
 
+'''
+
+Summary of the Configs class:
+
+Args:
+    param1(env): The instance of the gym provided;
+    param2(max_timestep) : Timestep 时间步长;
+    param3(plot_every) : ?
+    param4(alpha) : alpha
+    param5(gamma) : gamma
+    param6(epsilon) : epsilon-greedy ,it likes a noise created in the local search.
+    
+'''
 class Configs:
     def __init__(self, 
                  env, 
@@ -64,11 +77,16 @@ def sarsa(env, config):
         
         for timestep in np.arange(config.max_timestep):
             env_feedbacks = env.step(action)
+            #获得下一步的回馈
+            #next_state
+            #reward
+            #done
             next_state, reward, done = env_feedbacks[0], env_feedbacks[1], env_feedbacks[2]
 
             reward_sum += reward
 
             next_prob = epsilon_greedy(q_values[next_state], episode, config.epsilon)
+            #通过prob判断是否需要跳出当前的local optimal
             next_action = np.random.choice(action_set, p=next_prob)
 
             """
