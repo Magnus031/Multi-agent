@@ -8,11 +8,12 @@ import torch.optim as optim
 import numpy as np
 import matplotlib.pyplot as plt
 
+# 我们规定了数据集的大小为1000
 DATA_SIZE = 1000
-
+# 我们确定了两个函数 sin 和 sigmoid函数，两个函数的数据大小为随机确定 也就是说 sin 函数的数据集大小在[300,700]之间，那么减去之后就是sigmoid函数的数据集大小
 sine_data_size = np.random.randint(int(0.3 * DATA_SIZE), int(0.7 * DATA_SIZE))
 sigmoid_data_size = DATA_SIZE - sine_data_size
-
+# 我们确定了范围和步长 From 0 to 10,every 0.5 a step.返回的是一个数据，也就是说测试数据点就是在这个数组中;
 steps = np.arange(0, 10, 0.5)
 
 # generate sine-like function samples
@@ -22,10 +23,13 @@ sine_data = np.sin(sine_init[:, :1] * steps + sine_init[:, 1:])
 # generate sigmoid-like function samples
 sigmoid_init = np.random.uniform(-3, 3, (sigmoid_data_size, 2)) # randomize a and b for 1/(1+e^(-ax+b))
 sigmoid_data = 1 / (1 + np.exp(0 - sigmoid_init[:, :1] * steps + sigmoid_init[:, 1:]))
+
+# 生成可视化的数据 也就是生成了两张函数的图
 fig, axs = plt.subplots(1, 2)
 axs[0].plot(sine_data[0])
 axs[1].plot(sigmoid_data[1])
 plt.show()
+
 # mix data
 sine_data = np.concatenate((sine_data, np.ones((sine_data_size, 1))), axis=1)
 sigmoid_data = np.concatenate((sigmoid_data, np.zeros((sigmoid_data_size, 1))), axis=1)
