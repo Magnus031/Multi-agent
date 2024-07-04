@@ -43,3 +43,11 @@ This experiment is to familiarize yourself with the use of PyTorch
 - 利用RNN的二元分类网络区分不同函数 
 - 熟悉PyTorch
 - `pip3 install pytorch -i https://pypi.tuna.tsinghua.edu.cn/simple` 使用清华源下载的更快！
+
+
+### Exp04:
+
+#### Goal:
+
+- 熟悉DQN算法
+- 使用Double DQN算法
